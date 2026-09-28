@@ -1,0 +1,16 @@
+{
+  "_note": "FICTIONAL standard clause library for demonstration only. Not legal advice.",
+  "limitation_of_liability": "Each party's total aggregate liability arising out of or in connection with this Agreement shall not exceed the Fees paid or payable in the twelve (12) months preceding the claim. Nothing limits liability for fraud, death or personal injury caused by negligence.",
+  "termination_for_convenience": "Customer may terminate this Agreement for convenience on ninety (90) days' written notice. Either party may terminate for material breach not remedied within thirty (30) days.",
+  "renewal": "This Agreement renews only by written agreement of both parties. Provider shall remind Customer of the expiry date at least sixty (60) days in advance.",
+  "payment_terms": "Customer shall pay undisputed invoices within forty-five (45) days of receipt of a valid invoice. Late payment interest shall not exceed 1% per month. Fees may be increased only at renewal, by no more than the lower of CPI or 5%.",
+  "data_location": "Provider shall store and process Customer Data only in the United Kingdom or the European Economic Area, and shall not transfer it elsewhere without Customer's prior written consent.",
+  "data_licence": "Customer grants Provider a non-exclusive licence to use Customer Data solely to provide the Services during the Term.",
+  "breach_notification": "Processor shall notify Controller of a Personal Data Breach without undue delay and in any event within forty-eight (48) hours of becoming aware of it.",
+  "sub_processors": "Processor shall give Controller at least thirty (30) days' prior written notice of any new sub-processor, and Controller may object on reasonable grounds.",
+  "audit": "Processor shall allow for and contribute to audits, including inspections, conducted by Controller or an auditor mandated by Controller.",
+  "confidentiality_term": "The obligations of confidentiality survive for three (3) years after disclosure, and indefinitely in respect of trade secrets.",
+  "residuals": "No licence or right to use Confidential Information is granted except for the Purpose. There is no residuals exception.",
+  "return_or_destroy": "On written request, each party shall promptly return or destroy the other party's Confidential Information and confirm this in writing.",
+  "governing_law": "This Agreement is governed by the laws of England and Wales, and the courts of England have exclusive jurisdiction."
+}

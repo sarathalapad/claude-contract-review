@@ -1,0 +1,198 @@
+{
+  "name": "Harbourline Procurement Review Playbook (fictional)",
+  "version": "2026.1",
+  "rules": [
+    {
+      "id": "PB-LIA-01",
+      "category": "liability",
+      "title": "Supplier liability cap of at least 12 months' fees",
+      "risk": "high",
+      "applies_to": ["saas"],
+      "description": "The supplier's aggregate liability cap must be at least the fees paid or payable in the 12 months preceding the claim.",
+      "check": {"type": "numeric_min", "trigger": "not exceed", "value": "\\(?(\\d+)\\)?\\s*months?", "min": 12},
+      "standard_clause": "limitation_of_liability",
+      "redline": "Replace the cap with: 'shall not exceed the Fees paid or payable in the twelve (12) months preceding the claim'."
+    },
+    {
+      "id": "PB-LIA-02",
+      "category": "liability",
+      "title": "No uncapped customer liability",
+      "risk": "high",
+      "applies_to": ["saas", "dpa", "nda"],
+      "description": "Our liability must never be unlimited; it must be capped at no more than the supplier's cap.",
+      "check": {"type": "forbidden_pattern", "patterns": ["customer'?s liability[^.]*unlimited", "unlimited liability"]},
+      "standard_clause": "limitation_of_liability",
+      "redline": "Make the cap mutual: 'Each party's total aggregate liability shall not exceed ...'."
+    },
+    {
+      "id": "PB-REQ-01",
+      "category": "required_clause",
+      "title": "Limitation of liability clause present",
+      "risk": "high",
+      "applies_to": ["saas"],
+      "description": "Every supplier agreement must contain a limitation of liability clause.",
+      "check": {"type": "required_clause", "any_of": ["limitation of liability", "aggregate liability"]},
+      "standard_clause": "limitation_of_liability",
+      "redline": "Insert the standard limitation of liability clause."
+    },
+    {
+      "id": "PB-TRM-01",
+      "category": "required_clause",
+      "title": "Customer right to terminate for convenience",
+      "risk": "medium",
+      "applies_to": ["saas"],
+      "description": "We must be able to terminate for convenience on no more than 90 days' notice.",
+      "check": {"type": "required_clause", "any_of": ["terminate for convenience", "terminate this agreement for any reason", "without cause"]},
+      "standard_clause": "termination_for_convenience",
+      "redline": "Add: 'Customer may terminate this Agreement for convenience on ninety (90) days' written notice.'"
+    },
+    {
+      "id": "PB-REN-01",
+      "category": "term",
+      "title": "No auto-renewal with long notice windows",
+      "risk": "medium",
+      "applies_to": ["saas"],
+      "description": "Automatic renewal is acceptable only if we can opt out on 30 days' notice or less.",
+      "check": {"type": "numeric_max", "trigger": "automatically renew", "value": "\\(?(\\d+)\\)?\\s*days", "max": 30},
+      "standard_clause": "renewal",
+      "redline": "Reduce the non-renewal notice period to thirty (30) days, or require written renewal."
+    },
+    {
+      "id": "PB-PAY-01",
+      "category": "payment",
+      "title": "Payment terms of at least net 45",
+      "risk": "medium",
+      "applies_to": ["saas"],
+      "description": "Invoices must be payable no sooner than 45 days after receipt of a valid invoice.",
+      "check": {"type": "numeric_min", "trigger": "invoice", "value": "\\(?(\\d+)\\)?\\s*days", "min": 45},
+      "standard_clause": "payment_terms",
+      "redline": "Change to: 'within forty-five (45) days of receipt of a valid invoice'."
+    },
+    {
+      "id": "PB-PAY-02",
+      "category": "payment",
+      "title": "Late payment interest no more than 1% per month",
+      "risk": "low",
+      "applies_to": ["saas"],
+      "description": "Late payment interest must not exceed 1% per month.",
+      "check": {"type": "numeric_max", "trigger": "interest", "value": "(\\d+(?:\\.\\d+)?)%\\s*per month", "max": 1.0},
+      "standard_clause": "payment_terms",
+      "redline": "Cap late payment interest at 1% per month."
+    },
+    {
+      "id": "PB-PAY-03",
+      "category": "payment",
+      "title": "No unilateral fee increases",
+      "risk": "high",
+      "applies_to": ["saas"],
+      "description": "Fees may only change at renewal and by no more than CPI or 5%, whichever is lower.",
+      "check": {"type": "forbidden_pattern", "patterns": ["increase the fees at its sole discretion", "increase the fees at any time"]},
+      "standard_clause": "payment_terms",
+      "redline": "Replace with: 'Fees may be increased only at renewal, by no more than the lower of CPI or 5%.'"
+    },
+    {
+      "id": "PB-DAT-01",
+      "category": "data_residency",
+      "title": "Data stays in the UK or EEA",
+      "risk": "high",
+      "applies_to": ["saas", "dpa"],
+      "description": "Customer and personal data may only be stored or processed in the United Kingdom or the European Economic Area.",
+      "check": {
+        "type": "location_allowlist",
+        "trigger": "(stored|processed|hosted|transferred)",
+        "allowed": ["united kingdom", "european union", "european economic area", "eea"],
+        "known": ["united kingdom", "european union", "european economic area", "eea", "united states", "india", "singapore", "australia", "canada", "any country"]
+      },
+      "standard_clause": "data_location",
+      "redline": "Restrict hosting and processing to the United Kingdom and the EEA; transfers elsewhere require prior written consent."
+    },
+    {
+      "id": "PB-DAT-02",
+      "category": "data_rights",
+      "title": "No perpetual licence to our data",
+      "risk": "high",
+      "applies_to": ["saas", "dpa"],
+      "description": "Suppliers may use our data only to provide the services, never under a perpetual or irrevocable licence.",
+      "check": {"type": "forbidden_pattern", "patterns": ["perpetual,? irrevocable licen[cs]e"]},
+      "standard_clause": "data_licence",
+      "redline": "Replace with a limited licence to use Customer Data solely to provide the Services during the Term."
+    },
+    {
+      "id": "PB-DPA-01",
+      "category": "data_protection",
+      "title": "Personal data breach notice within 72 hours",
+      "risk": "high",
+      "applies_to": ["dpa"],
+      "description": "The processor must notify us of a personal data breach within 72 hours of becoming aware of it.",
+      "check": {"type": "numeric_max", "trigger": "breach", "value": "\\(?(\\d+)\\)?\\s*(hours?|days?)", "max": 72, "units": {"hour": 1, "hours": 1, "day": 24, "days": 24}},
+      "standard_clause": "breach_notification",
+      "redline": "Change to: 'without undue delay and in any event within forty-eight (48) hours of becoming aware'."
+    },
+    {
+      "id": "PB-DPA-02",
+      "category": "data_protection",
+      "title": "Prior notice of new sub-processors",
+      "risk": "medium",
+      "applies_to": ["dpa"],
+      "description": "The processor must give 30 days' prior notice of new sub-processors with a right to object.",
+      "check": {"type": "forbidden_pattern", "patterns": ["sub-?processors without prior notice"]},
+      "standard_clause": "sub_processors",
+      "redline": "Require thirty (30) days' prior written notice of new sub-processors and a right to object."
+    },
+    {
+      "id": "PB-DPA-03",
+      "category": "required_clause",
+      "title": "Audit rights",
+      "risk": "medium",
+      "applies_to": ["dpa"],
+      "description": "The DPA must give us audit and inspection rights.",
+      "check": {"type": "required_clause", "any_of": ["audit"]},
+      "standard_clause": "audit",
+      "redline": "Insert the standard audit rights clause."
+    },
+    {
+      "id": "PB-NDA-01",
+      "category": "confidentiality",
+      "title": "Confidentiality survives at least 3 years",
+      "risk": "medium",
+      "applies_to": ["nda"],
+      "description": "Confidentiality obligations must survive for at least 3 years.",
+      "check": {"type": "numeric_min", "trigger": "survive", "value": "\\(?(\\d+)\\)?\\s*years?", "min": 3},
+      "standard_clause": "confidentiality_term",
+      "redline": "Extend survival to three (3) years, and indefinitely for trade secrets."
+    },
+    {
+      "id": "PB-NDA-02",
+      "category": "confidentiality",
+      "title": "No residuals clause",
+      "risk": "high",
+      "applies_to": ["nda"],
+      "description": "Residuals clauses let the recipient reuse our information from memory and are not accepted.",
+      "check": {"type": "forbidden_pattern", "patterns": ["residuals"]},
+      "standard_clause": "residuals",
+      "redline": "Delete the residuals clause in full."
+    },
+    {
+      "id": "PB-NDA-03",
+      "category": "required_clause",
+      "title": "Return or destruction of information",
+      "risk": "low",
+      "applies_to": ["nda"],
+      "description": "The NDA must require return or destruction of confidential information on request.",
+      "check": {"type": "required_clause", "any_of": ["return or destroy", "return or destruction"]},
+      "standard_clause": "return_or_destroy",
+      "redline": "Insert the standard return or destruction clause."
+    },
+    {
+      "id": "PB-GOV-01",
+      "category": "governing_law",
+      "title": "Approved governing law",
+      "risk": "medium",
+      "applies_to": ["saas", "dpa", "nda"],
+      "description": "Governing law must be England and Wales or Ireland.",
+      "check": {"type": "allowed_values", "trigger": "governed by", "allowed": ["england and wales", "ireland"]},
+      "standard_clause": "governing_law",
+      "redline": "Change governing law to England and Wales, with exclusive jurisdiction of the English courts."
+    }
+  ]
+}
